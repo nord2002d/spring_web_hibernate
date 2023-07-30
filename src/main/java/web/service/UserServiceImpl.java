@@ -1,6 +1,7 @@
 package web.service;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import web.model.User;
 import web.repository.UserService;
 
@@ -8,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import java.util.List;
-@Component
+@Service
 public class UserServiceImpl implements UserService {
 
     private EntityManagerFactory entityManagerFactory;
