@@ -9,43 +9,71 @@ import web.repository.UserService;
 @Controller
 public class BaseController {
 
-	private UserService userService;
+    private static final String REDIRECT = "redirect:/users";
+    private UserService userService;
 
-	public BaseController(UserService userService) {
-		this.userService = userService;
-	}
+    public BaseController(UserService userService) {
+        this.userService = userService;
+    }
 
 
-	@GetMapping(value = "/")
-	public String printWelcome(ModelMap model) {
-		model.addAttribute("users", userService.listUsers());
-		model.addAttribute("add",new User());
-		model.addAttribute("delete",new User());
-		model.addAttribute("update",new User());
-		return "users";
-	}
+    @GetMapping(value = "/users")
+    public String showUsers(ModelMap model) {
+        model.addAttribute("users", userService.listUsers());
+        return "users";
+    }
 
-	@PostMapping()
-	public String addUser(@ModelAttribute User user){
-		userService.add(user);
-		return "redirect:/";
-	}
+    @GetMapping(value = "/add")
+    public String addPP(ModelMap model) {
+        model.addAttribute("add", new User());
+        return "add";
+    }
 
-    @DeleteMapping()
-	public String removeUser(@ModelAttribute User user) {
-		userService.removeUser(user.getId());
-		return "redirect:/";
-	}
-	@PatchMapping()
-	public String updateUser(@ModelAttribute User user) {
-		User updateUser = userService.getUser(user.getId());
-		updateUser.setName(user.getName());
-		updateUser.setSurName(user.getSurName());
-		updateUser.setAge(user.getAge());
-		userService.add(updateUser);
-		return "redirect:/";
-	}
+    @PostMapping("/add")
+    public String addUser(@ModelAttribute User user) {
+        userService.add(user);
+        return REDIRECT;
+    }
 
+    @GetMapping(value = "/delete")
+    public String remove(ModelMap model) {
+        model.addAttribute("delete", new User());
+        return "delete";
+    }
+
+    @DeleteMapping("/delete")
+    public String removeUser(@ModelAttribute User user) {
+        User us = userService.getUser(user.getId());
+        if (us == null) {
+            return "redirect:/error";
+        }
+        userService.removeUser(user.getId());
+        return REDIRECT;
+    }
+
+    @GetMapping(value = "/update")
+    public String update(ModelMap model) {
+        model.addAttribute("update", new User());
+        return "update";
+    }
+
+    @PatchMapping("/update")
+    public String updateUser(@ModelAttribute User user) {
+        User updateUser = userService.getUser(user.getId());
+        if (updateUser == null) {
+            return "redirect:/error";
+        }
+        updateUser.setName(user.getName());
+        updateUser.setSurName(user.getSurName());
+        updateUser.setAge(user.getAge());
+        userService.add(updateUser);
+        return REDIRECT;
+    }
+
+    @GetMapping(value = "/error")
+    public String error() {
+        return "error";
+    }
 
 
 }

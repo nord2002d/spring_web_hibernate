@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+</head>
+<body>
+<div th:if="${param.error}">
+    User is not exist.
+</div>
+<form th:method="PATCH" th:action="@{/update}" th:object="${update}">
+    <label for="i"> Enter id: </label>
+    <input type="number" th:field="*{id}" id="i">
+    <br/>
+    <label for="n">Enter name: </label>
+    <input type="text" th:field="*{name}" id="n">
+    <br/>
+    <label for="s">Enter surName: </label>
+    <input type="text" th:field="*{surName}" id="s">
+    <br/>
+    <label for="a">Enter age: </label>
+    <input type="number" th:field="*{age}" id="a">
+    <br/>
+    <br/>
+    <input type="submit" value="UpdateUser">
+</form>
+<br/>
+<br/>
+<form th:action="@{/}" method="get">
+    <input type="submit" value="Sign Out"/>
+</form>
+</body>
+</html>

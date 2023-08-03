@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Main page</title>
+</head>
+<body>
+<h1> Hello user </h1>
+<form th:action="@{/users}" method="get">
+  <input type="submit" value="Table All Users"/>
+</form>
+<br/>
+<br/>
+<form th:action="@{/add}" method="get">
+  <input type="submit" value="Add User">
+</form>
+<br/>
+<br/>
+<form th:action="@{/delete}" method="get">
+  <input type="submit" value="Delete User">
+</form>
+<br/>
+<br/>
+<form th:action="@{/update}" method="get">
+  <input type="submit" value="Update User">
+</form>
+</body>
+</html>
