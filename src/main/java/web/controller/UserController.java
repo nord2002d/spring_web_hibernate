@@ -7,12 +7,12 @@ import web.model.User;
 import web.repository.UserService;
 
 @Controller
-public class BaseController {
+public class UserController {
 
     private static final String REDIRECT = "redirect:/users";
     private UserService userService;
 
-    public BaseController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

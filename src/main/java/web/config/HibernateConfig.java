@@ -60,7 +60,7 @@ public class HibernateConfig {
         settings.put(AvailableSettings.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
         settings.put(AvailableSettings.SHOW_SQL, "true");
         settings.put(AvailableSettings.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-        settings.put(AvailableSettings.HBM2DDL_AUTO, "");
+        settings.put(AvailableSettings.HBM2DDL_AUTO, "update");
         return settings;
     }
 
