@@ -2,7 +2,6 @@ package web.service;
 
 import org.springframework.stereotype.Service;
 import web.model.User;
-import web.repository.UserService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

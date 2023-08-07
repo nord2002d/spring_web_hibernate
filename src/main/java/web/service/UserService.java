@@ -1,4 +1,4 @@
-package web.repository;
+package web.service;
 
 import org.springframework.stereotype.Repository;
 import web.model.User;
