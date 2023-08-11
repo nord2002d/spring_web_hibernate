@@ -3,6 +3,7 @@ package web.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import web.exeptions.UserNotFoundException;
 import web.model.User;
 import web.service.UserService;
 
@@ -17,62 +18,44 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/users")
+    @GetMapping("/users")
     public String showUsers(ModelMap model) {
         model.addAttribute("users", userService.listUsers());
         return "users";
     }
 
-    @GetMapping(value = "/add")
-    public String addPP(ModelMap model) {
+    @GetMapping( "/formAdd")
+    public String getFormAddUser(ModelMap model) {
         model.addAttribute("add", new User());
         return "add";
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public String addUser(@ModelAttribute User user) {
         userService.add(user);
         return REDIRECT;
     }
 
-    @GetMapping(value = "/delete")
-    public String remove(ModelMap model) {
-        model.addAttribute("delete", new User());
-        return "delete";
-    }
-
-    @DeleteMapping("/delete")
-    public String removeUser(@ModelAttribute User user) {
-        User us = userService.getUser(user.getId());
-        if (us == null) {
-            return "redirect:/error";
-        }
-        userService.removeUser(user.getId());
+    @DeleteMapping()
+    public String removeUser(@RequestParam("id") long id) throws UserNotFoundException {
+        userService.removeUser(id);
         return REDIRECT;
     }
 
-    @GetMapping(value = "/update")
-    public String update(ModelMap model) {
-        model.addAttribute("update", new User());
+    @GetMapping("/formUpdate")
+    public String getFormUpdate(ModelMap model, @RequestParam("id") long id) throws UserNotFoundException {
+        model.addAttribute("update", userService.getUser(id));
         return "update";
     }
 
-    @PatchMapping("/update")
-    public String updateUser(@ModelAttribute User user) {
+    @PatchMapping()
+    public String updateUser(@ModelAttribute User user) throws UserNotFoundException {
         User updateUser = userService.getUser(user.getId());
-        if (updateUser == null) {
-            return "redirect:/error";
-        }
         updateUser.setName(user.getName());
         updateUser.setSurName(user.getSurName());
         updateUser.setAge(user.getAge());
         userService.add(updateUser);
         return REDIRECT;
-    }
-
-    @GetMapping(value = "/error")
-    public String error() {
-        return "error";
     }
 
 

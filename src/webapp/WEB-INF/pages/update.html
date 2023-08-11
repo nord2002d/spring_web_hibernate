@@ -8,7 +8,7 @@
 <div th:if="${param.error}">
     User is not exist.
 </div>
-<form th:method="PATCH" th:action="@{/update}" th:object="${update}">
+<form th:method="PATCH" th:action="@{/}" th:object="${update}">
     <label for="i"> Enter id: </label>
     <input type="number" th:field="*{id}" id="i">
     <br/>

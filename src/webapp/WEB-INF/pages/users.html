@@ -17,14 +17,27 @@
         </tr>
         </thead>
         <tbody>
-        <tr style="text-align: center; vertical-align: middle" th:each="User : ${users}">
+        <tr  th:each="User : ${users}">
             <td th:text="${User.id}">id</td>
             <td th:text="${User.name}">name</td>
             <td th:text="${User.surName}">surName</td>
             <td th:text="${User.age}">age</td>
+            <td>
+                <form th:method="DELETE" th:action="@{/}">
+                    <input name="id" th:value="${User.id}" type="hidden"/>
+                    <button type="submit" value="Remove user">Remove</button>
+                </form>
+            </td>
+            <td>
+                <form th:method="GET" th:action="@{/formUpdate}">
+                    <input name="id" th:value="${User.id}" type="hidden"/>
+                    <button type="submit" value="Update user">Update</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
+
 </div>
 <br/>
 <br/>

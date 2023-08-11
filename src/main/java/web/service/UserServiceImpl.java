@@ -1,12 +1,15 @@
 package web.service;
 
 import org.springframework.stereotype.Service;
+import web.exeptions.UserNotFoundException;
 import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -55,40 +58,39 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(long id) {
+    public User getUser(long id) throws UserNotFoundException {
         EntityManager entityManager = null;
-        User user = null;
+        Optional<User> user;
         try {
             entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            user = entityManager.find(User.class, id);
+            user = Optional.ofNullable(entityManager.find(User.class, id));
             entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             if (entityManager != null) {
                 entityManager.close();
             }
         }
-        return user;
+        return user.orElseThrow(() -> new UserNotFoundException("Пользователь с таким id = " + id + ", не найден"));
     }
 
     @Override
-    public void removeUser(long id) {
+    public void removeUser(long id) throws UserNotFoundException {
         EntityManager entityManager = null;
         try {
             entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            User user = entityManager.find(User.class, id);
-            entityManager.remove(user);
+            Optional<User> user = Optional.ofNullable(entityManager.find(User.class, id));
+            entityManager.remove(user.orElseThrow(() -> new UserNotFoundException(
+                    "В процессе удаления возникла ошибка: пользователь с таким id = " + id + ", не найден")));
             entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             if (entityManager != null) {
                 entityManager.close();
             }
         }
+
+
     }
 
 
